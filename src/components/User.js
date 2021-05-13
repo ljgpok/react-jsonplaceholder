@@ -1,18 +1,19 @@
 import React from 'react';
-import Button from './Button'
+import { Link } from 'react-router-dom';
 
+const User = ({ id, name, username, website }) => {
 
+    const webAddress = `http://${website}`;
 
-const User = ({name, username, website }) => {
     return (
         <div className="user">
-                <div id="profileImage"></div>
+                <div id="profileImage"> {name ? name[0] : ''}</div>
                 <div className="user-info">
                     <h3>{name}</h3>
                     <h2>@{username}</h2>
-                    <span>{website}</span>
+                    <a href={webAddress} target="_blank" rel='noreferrer'>{webAddress}</a> <br />
                 </div>
-                <Button />
+                <Link to={`/${id}`}><button type="button" className="button">More Details</button></Link>
         </div>
     )
 }

@@ -1,13 +1,14 @@
-import React,{ useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const Users = () => {
+
   const { id } = useParams();
 
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = useState({});
 
-    useEffect(() => {
-    const consulta = async () => {
+  useEffect(() => {
+    const fetchId = async () => {
       const resp = await fetch(
         `https://jsonplaceholder.typicode.com/users/${id}`
       );
@@ -15,20 +16,31 @@ const Users = () => {
       setUsers(data);
       console.log(data);
     };
-    consulta();
+    fetchId();
   }, [id]);
 
+  const { name, username, email, phone, company, website, address } = users;
+  const { street, suite, city, zipcode } = address || {};
+
   return (
-    <>
-      <ul>
+    <div className="user-container" >
+      <div className="userinfo">
         <h1>User Info</h1>
-        <li> Name: {users.name} <br /></li>
-        <li> Email: {users.email} <br /></li>
-        <li> Website: {users.website} <br /></li>
-        <li> Phone: {users.phone} <br /></li>
-        <li> Username: {users.username} <br /></li>
-      </ul>
-    </>
+        <p> - Name: {name} <br /></p>
+        <p> - Email: {email} <br /></p>
+        <p> - Website: {website} <br /></p>
+        <p> - Phone: {phone} <br /></p>
+        <p> - Username: {username} <br /></p>
+        <p> - Company: {company ? company.name : ''} <br /></p> 
+        <p> - Street :  </p> 
+        <ul>
+          <li> {street} </li>
+          <li> {suite} </li>
+          <li> {city} </li>
+          <li> {zipcode} </li>
+        </ul>
+    </div>
+  </div>
   );
 };
 
